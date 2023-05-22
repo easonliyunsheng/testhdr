@@ -1,22 +1,10 @@
-%=======================================================%
-% Instruction£ºÁ½ÕÅÍ¼ÏñºÏ³ÉHDRÔ­ÀíÎªÏñËØÖµ¼ÓÈ¨ºÍÊä³ö
-% Date£º2018/01/29
-% Engineer£ºWangShiping
-% Change£ºLiXiang
-%=======================================================%
-
-% imageL/imageM£ºÊäÈëRawDataÊı¾İ£»
-% bitWidth£ºÎªÊäÈëÍ¼ÏñÎ»¿í
-% expTimes + gainTimes£ºimageL/imageSµÄÏñËØÖµ±ÈÀı¹ØÏµ£»
-% transAreaStart£º¹ı¶ÉÇøÓòÆğÊ¼µã£¬·¶Î§ÔÚ(0,255£©£»
-% transAreaLength£º¹ı¶ÉÇøÓò³¤¶È,·¶Î§ÔÚ<255-transAreaStart£»
 
 function [imageHdr,hdrCompBitWidth] = HdrCombine(imageS, imageL, Color_BW, bitWidthImageL, times, dataOffset, transAreaStart, transAreaLength,maxBit,motionDetect)
 
 if(Color_BW == 0)
     pattern = 'GRBG';
-    imageL_G = DemosaicG(imageL,pattern,bitWidthImageL); % ½«ÊäÈëÍ¼Ïñ´ÓRAWÓò×ª»¯µ½G¿Õ¼ä
-    imageS_G = DemosaicG((imageS.*times/64),pattern,bitWidthImageL); % ½«ÊäÈëÍ¼Ïñ´ÓRAWÓò×ª»¯µ½G¿Õ¼ä
+    imageL_G = DemosaicG(imageL,pattern,bitWidthImageL); % å°†è¾“å…¥å›¾åƒä»RAWåŸŸè½¬åŒ–åˆ°Gç©ºé—´
+    imageS_G = DemosaicG((imageS.*times/64),pattern,bitWidthImageL); % å°†è¾“å…¥å›¾åƒä»RAWåŸŸè½¬åŒ–åˆ°Gç©ºé—´
 else
     imageL_G = imageL;
 end
@@ -29,7 +17,7 @@ transAreaLength = transAreaLength * 2^(bitWidthImageL-8);
 transAreaEnd = min(256,transAreaStart) * 2^(bitWidthImageL-8) + transAreaLength;
 transAreaStart = transAreaStart * 2^(bitWidthImageL-8);
 
-transAreaWeight = zeros(1,2^bitWidthImageL); % ¼ÆËã¹ı¶ÉÇøÓòµÄÈ¨ÖØÖµ
+transAreaWeight = zeros(1,2^bitWidthImageL); % è®¡ç®—è¿‡æ¸¡åŒºåŸŸçš„æƒé‡å€¼
 %transAreaWeight(1,transAreaEnd+1:2^bitWidthImageL) = 1;
 transAreaWeight(1,transAreaEnd+1:2^bitWidthImageL) = 4096;
 % kCoef = 1/(transAreaEnd-transAreaStart);
